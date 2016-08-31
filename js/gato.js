@@ -83,6 +83,19 @@ gamerPerson.jugada = function () {
 var gamerCompu = new Gamer(false,"X" game);
 gamerCompu.jugada = function () {
 	tablero = game.tablero;
+	var casillero = checklines(symbol);
+	if (casillero != null) {
+		tablero[casillero.row][casillero.colum] = symbol;
+		return;
+	}
+	casillero = checklines(otherSymbol(symbol));
+	if (casillero != null) {
+		tablero[casillero.row][casillero.colum] = symbol;
+		return;
+	}
+	casillero = findEmpty();
+	tablero[casillero.row][casillero.colum] = symbol;
+
 	
 	function checklines(symbol) {
 		for (var row = 0; row < tablero.length; row++) {
@@ -161,5 +174,13 @@ gamerCompu.jugada = function () {
 			var colum = i%3;
 			if (tablero[row][colum] === ' ') { return {row : row, colum : colum} }
 		}
+		return null;
+	}
+
+	function otherSymbol(symbol) {
+		//return the other symbol
+		if (symbol === 'O') { return 'X' } 
+		else if ( symbol === 'X' ) {return 'O'} 
+		else return null;
 	}
 }
