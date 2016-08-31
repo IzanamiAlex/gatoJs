@@ -1,29 +1,32 @@
 var game = (function () {
-	var tablero = [['_', '_','_'], ['_', '_','_'], ['_', '_','_']];
-	var gamers = [];
-	var turn;
+	var game = {};
+	game.tablero = [['_', '_','_'], ['_', '_','_'], ['_', '_','_']];
+	game.turn;
+
 	var view;
-	function addGamer(gamer) {
+	var gamers = [];
+
+	game.addGamer = function (gamer) {
 		//add gamer
 		console.log("addGamer");
 		gamers[gamers.length] = gamer;
 	};
-	function addView(view1) {
+	game.addView = function (view1) {
 		//add view
 		view = view1;
 	};
-	function start() {
+	game.start = function () {
 		//start the game
 		console.log("start");
-		turn = true;
-		view.display(tablero);
-		callGamers(turn);
+		game.turn = true;
+		view.display(game.tablero);
+		callGamers(game.turn);
 	};
-	function next() {
+	game.next = function () {
 		//next turn
 		console.log("next");
 
-		view.display(tablero);
+		view.display(game.tablero);
 		var winner = checkWinner();
 		if (winner != null) {
 			//displayWinner
@@ -33,8 +36,8 @@ var game = (function () {
 			view.displayTie();
 		}
 
-		turn = ! turn;
-		callGamers(turn);
+		game.turn = ! game.turn;
+		callGamers(game.turn);
 	};
 	function checkWinner() {
 		// check the winner
@@ -84,14 +87,7 @@ var game = (function () {
 		}
 	};
 
-	return {
-			tablero: tablero,
-			turn : turn,
-			addGamer : addGamer,
-			addView: addView,
-			start : start,
-			next : next,
-		};
+	return game;
 	}
 )();
 
@@ -117,7 +113,7 @@ gamerPerson.onChangeTurn = function (turn) {
 	console.log('Turno del jugador');
 };
 gamerPerson.jugada = function (event) {
-	console.log(gamerPerson.game.turn);
+	//console.log(gamerPerson.game.turn);
 	console.log(gamerPerson.turn);
 	if (game.turn === gamerPerson.turn) {
 		console.log("mi Turno");
