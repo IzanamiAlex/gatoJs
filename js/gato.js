@@ -1,6 +1,6 @@
 var game = (function () {
 	var game = {};
-	game.tablero = [['_', '_','_'], ['_', '_','_'], ['_', '_','_']];
+	game.tablero = [[' ', ' ',' '], [' ', ' ',' '], [' ', ' ',' ']];
 	game.turn;
 
 	var view;
@@ -42,6 +42,7 @@ var game = (function () {
 	function checkWinner() {
 		// check the winner
 		console.log("checkWinner");
+		var tablero = game.tablero;
 		for (var row = 0; row < tablero.length; row++) {
 			if (tablero[row][0] === tablero[row][1] && 
 				tablero[row][1] === tablero[row][2] &&
@@ -70,19 +71,19 @@ var game = (function () {
 	};
 	function checkTie() {
 		for (var i = 0; i < 9; i++) {
-			var row = i/3;
+			var row = Math.floor(i/3);
 			var colum = i%3;
-			if (tablero[row][colum] == ' ') { return false }
+			if (game.tablero[row][colum] == ' ') { return false; }
 		}
 		return true;
 	};
 	function callGamers(turn) {
 		// event change turn
 		for (var i = 0; i < gamers.length; i++) {
-			console.log(i);
-			console.log(turn);
-			console.log(gamers[i].symbol);
-			console.log(typeof gamers[i].onChangeTurn);
+			// console.log(i);
+			// console.log(turn);
+			// console.log(gamers[i].symbol);
+			// console.log(typeof gamers[i].onChangeTurn);
 			gamers[i].onChangeTurn(turn);
 		}
 	};
@@ -113,15 +114,19 @@ gamerPerson.onChangeTurn = function (turn) {
 	console.log('Turno del jugador');
 };
 gamerPerson.jugada = function (event) {
-	//console.log(gamerPerson.game.turn);
+	console.log(game.turn);
 	console.log(gamerPerson.turn);
 	if (game.turn === gamerPerson.turn) {
-		console.log("mi Turno");
-		//TODO: verificar como cambiar el texto de un button
+		console.log("mi jugada");
 		console.log(event.target.id);
-		if(event.target.innerHTML === ' '){
-			event.target.innerHTML = symbol;
+		var id = event.target.id;
+		var row = Math.floor(id/3);
+		var colum = id%3;
+		if(game.tablero[row][colum] === ' '){
+			game.tablero[row][colum] = gamerPerson.symbol;
 			game.next();
+		}else {
+			alert('Seleccion invalida');
 		}
 	}	
 }
@@ -130,29 +135,33 @@ gamerPerson.jugada = function (event) {
 var gamerCompu = {
 	turn : false,
 	symbol : 'X',
-	game : game,
 	onChangeTurn : function (turn) {
 		//action when change the turn
-		if (gamerCompu.turn === gamerCompu.game.turn) {
-			Gamer.jugada();
+		console.log(game.turn);
+		console.log(gamerCompu.turn);
+		if (gamerCompu.turn === game.turn) {
+			console.log('turno maquina');
+			gamerCompu.jugada();
 		}
 	}
 }
 gamerCompu.jugada = function () {
+	console.log('jugada maquina');
 	var tablero = game.tablero;
-	var casillero = checklines(symbol);
+	var casillero = checklines(gamerCompu.symbol);
 	if (casillero != null) {
-		tablero[casillero.row][casillero.colum] = symbol;
+		tablero[casillero.row][casillero.colum] = gamerCompu.symbol;
+		game.next();
 		return;
 	}
-	casillero = checklines(otherSymbol(symbol));
+	casillero = checklines(otherSymbol(gamerCompu.symbol));
 	if (casillero != null) {
-		tablero[casillero.row][casillero.colum] = symbol;
+		tablero[casillero.row][casillero.colum] = gamerCompu.symbol;
+		game.next();
 		return;
 	}
 	casillero = findEmpty();
-	tablero[casillero.row][casillero.colum] = symbol;
-
+	tablero[casillero.row][casillero.colum] = gamerCompu.symbol;
 	game.next();
 	
 	function checklines(symbol) {
@@ -228,7 +237,7 @@ gamerCompu.jugada = function () {
 	function findEmpty() {
 		//find position uncheked
 		for (var i = 0; i < 9; i++) {
-			var row = i/3;
+			var row = Math.floor(i/3);
 			var colum = i%3;
 			if (tablero[row][colum] === ' ') { return {row : row, colum : colum} }
 		}
