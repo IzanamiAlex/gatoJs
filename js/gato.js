@@ -1,5 +1,5 @@
 var game = (function () {
-	var tablero = [[' ', ' ',' '], [' ', ' ',' '], [' ', ' ',' ']];
+	var tablero = [['_', '_','_'], ['_', '_','_'], ['_', '_','_']];
 	var gamers = [];
 	var turn;
 	var view;
@@ -75,7 +75,11 @@ var game = (function () {
 	};
 	function callGamers(turn) {
 		// event change turn
-		for (var i = gamers.length - 1; i >= 0; i--) {
+		for (var i = 0; i < gamers.length; i++) {
+			console.log(i);
+			console.log(turn);
+			console.log(gamers[i].symbol);
+			console.log(typeof gamers[i].onChangeTurn);
 			gamers[i].onChangeTurn(turn);
 		}
 	};
@@ -91,37 +95,55 @@ var game = (function () {
 	}
 )();
 
-function Gamer(turn,symbol,game) {
-	Gamer.turn = turn;
-	Gamer.symbol = symbol;
-	Gamer.game = game;
-	Gamer.onChangeTurn = function (turn) {
-		//action when change the turn
-		if (turn === Gamer.turn) {
-			Gamer.jugada();
-		}
-	};
-	Gamer.jugada = null;
-}
+// function Gamer(turn,symbol,game) {
+// 	Gamer.turn = turn;
+// 	Gamer.symbol = symbol;
+// 	Gamer.game = game;
+// 	Gamer.onChangeTurn = function (turn) {
+// 		//action when change the turn
+// 		if (Gamer.turn === Gamer.game.turn) {
+// 			Gamer.jugada();
+// 		}
+// 	};
+// 	Gamer.jugada = null;
+// }
 
-var gamerPerson = new Gamer(true,"O",game);
-gamerPerson.onChangeTurn = function () {
+//var gamerPerson = new Gamer(true,"O",game);
+var gamerPerson = {
+	turn : true,
+	symbol : 'O'
+}
+gamerPerson.onChangeTurn = function (turn) {
 	console.log('Turno del jugador');
 };
 gamerPerson.jugada = function (event) {
-	if (turn === gamerPerson.turn) {
+	console.log(gamerPerson.game.turn);
+	console.log(gamerPerson.turn);
+	if (game.turn === gamerPerson.turn) {
 		console.log("mi Turno");
 		//TODO: verificar como cambiar el texto de un button
-		if(event.target.value === ' '){
-			event.target.value = symbol;
+		console.log(event.target.id);
+		if(event.target.innerHTML === ' '){
+			event.target.innerHTML = symbol;
 			game.next();
 		}
 	}	
 }
 
-var gamerCompu = new Gamer(false,"X", game);
+//var gamerCompu = new Gamer(false,"X", game);
+var gamerCompu = {
+	turn : false,
+	symbol : 'X',
+	game : game,
+	onChangeTurn : function (turn) {
+		//action when change the turn
+		if (gamerCompu.turn === gamerCompu.game.turn) {
+			Gamer.jugada();
+		}
+	}
+}
 gamerCompu.jugada = function () {
-	tablero = game.tablero;
+	var tablero = game.tablero;
 	var casillero = checklines(symbol);
 	if (casillero != null) {
 		tablero[casillero.row][casillero.colum] = symbol;
@@ -229,17 +251,18 @@ var view = (function () {
 			//view
 			var view = {};
 			view.buttons = [];
-			for (var i = 0; i < 9; i++) {
-				view.buttons[i] = Document.getElementById(''+i);
+			view.buttons = document.getElementsByTagName('button');
+			console.log(view.buttons.length);
+			for (var i = 0; i < view.buttons.length; i++) {
 				view.buttons[i].addEventListener('click',gamerPerson.jugada);
 			}
 			view.display = function (tablero) {
 				// display the tablero
 				for (var i = 0; i < 9; i++) {
-					var row = i/3;
-					var colum = i%3;
+					var row = Math.floor(i/3);
+					var col = i%3;
 					//TODO: verificar como cambiar el texto de un button
-					buttons[i].value = tablero[row][colum];
+					view.buttons[i].innerHTML = tablero[row][col];
 				}
 			};
 			view.displayWinner = function () {
