@@ -55,4 +55,14 @@ var game = (function () {
 	}
 )();
 
-
+function Gamer(turn,symbol) {
+	Gamer.turn = turn;
+	Gamer.symbol = symbol;
+	Gamer.onChangeTurn = function (turn) {
+		//action when change the turn
+		if (turn === Gamer.turn) {
+			Gamer.jugada();
+		}
+	};
+	Gamer.jugada = null;
+}
