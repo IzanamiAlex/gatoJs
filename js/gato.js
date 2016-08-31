@@ -2,6 +2,7 @@ var game = (function () {
 	var game = {};
 	game.tablero = [[' ', ' ',' '], [' ', ' ',' '], [' ', ' ',' ']];
 	game.turn;
+	game.run = false;
 
 	var view;
 	var gamers = [];
@@ -18,6 +19,7 @@ var game = (function () {
 	game.start = function () {
 		//start the game
 		console.log("start");
+		game.run =true;
 		game.turn = true;
 		view.display(game.tablero);
 		callGamers(game.turn);
@@ -30,14 +32,23 @@ var game = (function () {
 		var winner = checkWinner();
 		if (winner != null) {
 			//displayWinner
+			view.displayWinner(winner);
+			game.stop();
+			return;
 		}
 		if(checkTie()){
 			//displayTie
 			view.displayTie();
+			game.stop();
+			return;
 		}
 
 		game.turn = ! game.turn;
 		callGamers(game.turn);
+	};
+	game.stop = function (){
+		view.display(game.tablero);
+		game.run = false;
 	};
 	function checkWinner() {
 		// check the winner
@@ -80,10 +91,6 @@ var game = (function () {
 	function callGamers(turn) {
 		// event change turn
 		for (var i = 0; i < gamers.length; i++) {
-			// console.log(i);
-			// console.log(turn);
-			// console.log(gamers[i].symbol);
-			// console.log(typeof gamers[i].onChangeTurn);
 			gamers[i].onChangeTurn(turn);
 		}
 	};
@@ -92,20 +99,6 @@ var game = (function () {
 	}
 )();
 
-// function Gamer(turn,symbol,game) {
-// 	Gamer.turn = turn;
-// 	Gamer.symbol = symbol;
-// 	Gamer.game = game;
-// 	Gamer.onChangeTurn = function (turn) {
-// 		//action when change the turn
-// 		if (Gamer.turn === Gamer.game.turn) {
-// 			Gamer.jugada();
-// 		}
-// 	};
-// 	Gamer.jugada = null;
-// }
-
-//var gamerPerson = new Gamer(true,"O",game);
 var gamerPerson = {
 	turn : true,
 	symbol : 'O'
@@ -116,7 +109,7 @@ gamerPerson.onChangeTurn = function (turn) {
 gamerPerson.jugada = function (event) {
 	console.log(game.turn);
 	console.log(gamerPerson.turn);
-	if (game.turn === gamerPerson.turn) {
+	if (game.turn === gamerPerson.turn && game.run) {
 		console.log("mi jugada");
 		console.log(event.target.id);
 		var id = event.target.id;
@@ -139,7 +132,7 @@ var gamerCompu = {
 		//action when change the turn
 		console.log(game.turn);
 		console.log(gamerCompu.turn);
-		if (gamerCompu.turn === game.turn) {
+		if (gamerCompu.turn === game.turn &&game.run) {
 			console.log('turno maquina');
 			gamerCompu.jugada();
 		}
@@ -266,12 +259,12 @@ var view = (function () {
 				for (var i = 0; i < 9; i++) {
 					var row = Math.floor(i/3);
 					var col = i%3;
-					//TODO: verificar como cambiar el texto de un button
 					view.buttons[i].innerHTML = tablero[row][col];
 				}
 			};
-			view.displayWinner = function () {
+			view.displayWinner = function (winner) {
 				// display the winner
+				alert(winner+' ha ganado');
 			}
 			view.displayTie = function () {
 				//display the Tie
@@ -280,8 +273,6 @@ var view = (function () {
 			return view;
 		}
 	)();
-
-
 
 game.addGamer(gamerPerson);
 game.addGamer(gamerCompu);
