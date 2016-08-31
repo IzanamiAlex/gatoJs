@@ -45,6 +45,7 @@ var game = (function () {
 	};
 
 	return {
+			tablero: tablero,
 			turn : turn,
 			addGamer : addGamer,
 			addView: addView,
@@ -55,9 +56,10 @@ var game = (function () {
 	}
 )();
 
-function Gamer(turn,symbol) {
+function Gamer(turn,symbol,game) {
 	Gamer.turn = turn;
 	Gamer.symbol = symbol;
+	Gamer.game = game;
 	Gamer.onChangeTurn = function (turn) {
 		//action when change the turn
 		if (turn === Gamer.turn) {
@@ -65,4 +67,15 @@ function Gamer(turn,symbol) {
 		}
 	};
 	Gamer.jugada = null;
+}
+
+var gamerPerson = new Gamer(true,"O",game);
+gamerPerson.jugada = function () {
+	for (var i = 0; i < 9; i++) {
+		var button = Document.getElementById(i);
+		button.addListener('click', function () {
+			
+		})
+	}
+	
 }
