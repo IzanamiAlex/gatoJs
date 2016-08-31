@@ -8,8 +8,9 @@ var game = (function () {
 		console.log("addGamer");
 		gamers[gamers.length] = gamer;
 	};
-	function addView(view) {
+	function addView(view1) {
 		//add view
+		view = view1;
 	};
 	function start() {
 		//start the game
@@ -18,7 +19,14 @@ var game = (function () {
 		callGamers(turn);
 		while(true){
 			next();
-			checkWinner();
+			//display
+			var winner = checkWinner();
+			if (winner != null) {
+				//displayWinner
+			}
+			if(checkTie()){
+				//displayTie
+			}
 		}
 	};
 	function next() {
@@ -28,18 +36,42 @@ var game = (function () {
 		callGamers(turn);
 	};
 	function checkWinner() {
-		// check the winner or the "empate"	
+		// check the winner
 		console.log("checkWinner");
+		for (var row = 0; row < tablero.length; row++) {
+			if (tablero[row][0] === tablero[row][1] && 
+				tablero[row][1] === tablero[row][2] &&
+				tablero[row][0] != ' ') {
+				return tablero[row][0];
+			}
+		}
+		for (var colum = 0; colum < tablero[0].length; colum++) {
+			if (tablero[0][colum] === tablero[1][colum] && 
+				tablero[1][colum] === tablero[2][colum] &&
+				tablero[0][colum] != ' ') {
+				return tablero[0][colum];
+			}
+		}
+		if (tablero[0][0] === tablero[1][1] &&
+			tablero[1][1] === tablero[2][2] &&
+			tablero[1][1] != ' ') {
+			return tablero[1][1];
+		}
+		if (tablero[0][2] === tablero[1][1] &&
+			tablero[1][1] === tablero[2][0] &&
+			tablero[1][1] != ' ') {
+			return tablero[1][1];
+		}
+		return null;
 	};
+	
 	function callGamers(turn) {
 		// event change turn
 		for (var i = gamers.length - 1; i >= 0; i--) {
 			gamers[i].onChangeTurn(turn);
 		}
 	};
-	function setPlay(row, colum) {
-		// set the tablerov
-	}
+
 	function display() {
 		//display the game
 	};
@@ -51,7 +83,6 @@ var game = (function () {
 			addView: addView,
 			start : start,
 			next : next,
-			setPlay : setPlay
 		};
 	}
 )();
