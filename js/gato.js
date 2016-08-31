@@ -79,3 +79,87 @@ gamerPerson.jugada = function () {
 	}
 	
 }
+
+var gamerCompu = new Gamer(false,"X" game);
+gamerCompu.jugada = function () {
+	tablero = game.tablero;
+	
+	function checklines(symbol) {
+		for (var row = 0; row < tablero.length; row++) {
+			if(tablero[row][0] === tablero[row][1] && 
+				tablero[row][0] === symbol && 
+				tablero[row][2] === ' ') {
+					return{ row : row, colum : 2};
+			}
+			if(tablero[row][1] === tablero[row][2] && 
+				tablero[row][1] === symbol && 
+				tablero[row][0] === ' ') {
+					return{ row : row, colum : 0};
+			}
+			if(tablero[row][0] === tablero[row][2] && 
+				tablero[row][0] === symbol && 
+				tablero[row][1] === ' ') {
+					return{ row : row, colum : 1};
+			}
+		}
+
+		for (var colum = 0; colum < tablero[0].length; colum++) {
+			if(tablero[0][colum] === tablero[1][colum] && 
+				tablero[0][colum] === symbol && 
+				tablero[2][colum] === ' ') {
+					return{ row : 2, colum : colum};
+			}
+			if(tablero[1][colum] === tablero[2][colum] && 
+				tablero[1][colum] === symbol && 
+				tablero[0][colum] === ' ') {
+					return{ row : 0, colum : colum};
+			}
+			if(tablero[0][colum] === tablero[2][colum] &&
+				tablero[0][colum] === symbol && 
+				tablero[1][colum] === ' ') {
+					return{ row : 1, colum : colum};
+			}
+		}
+		if (tablero[1][1] === tablero[2][2] &&
+			tablero[1][1] === symbol &&
+			tablero[0][0] === ' ') {
+				return {row : 0, colum : 0};
+		}
+		if (tablero[0][0] === tablero[2][2] &&
+			tablero[0][0] === symbol &&
+			tablero[1][1] === ' ') {
+				return {row : 1, colum : 1};
+		}
+		if (tablero[0][0] === tablero[1][1] &&
+			tablero[0][0] === symbol &&
+			tablero[2][2] === ' ') {
+				return {row : 2, colum : 2};
+		}
+		if (tablero[0][2] === tablero[1][1] &&
+			tablero[1][1] === symbol &&
+			tablero[2][0] === ' ') {
+				return {row : 2, colum : 0};
+		}
+		if (tablero[2][0] === tablero[1][1] &&
+			tablero[1][1] === symbol &&
+			tablero[0][2] === ' ') {
+				return {row : 0, colum : 2};
+		}
+		if (tablero[2][0] === tablero[0][2] &&
+			tablero[2][0] === symbol &&
+			tablero[1][1] === ' ') {
+				return {row : 1, colum : 1};
+		}
+
+		return null;
+	}
+
+	function findEmpty() {
+		//find position uncheked
+		for (var i = 0; i < 9; i++) {
+			var row = i/3;
+			var colum = i%3;
+			if (tablero[row][colum] === ' ') { return {row : row, colum : colum} }
+		}
+	}
+}
