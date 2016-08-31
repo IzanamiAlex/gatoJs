@@ -118,7 +118,7 @@ gamerPerson.jugada = function () {
 	
 }
 
-var gamerCompu = new Gamer(false,"X" game);
+var gamerCompu = new Gamer(false,"X", game);
 gamerCompu.jugada = function () {
 	tablero = game.tablero;
 	var casillero = checklines(symbol);
@@ -226,6 +226,10 @@ gamerCompu.jugada = function () {
 var view = function view() {
 	//view
 	view.buttons = [];
+	for (var i = 0; i < 9; i++) {
+		buttons[i] = Document.getElementById(i);
+		
+	}
 	view.display = function (tablero) {
 		// display the tablero
 	};
