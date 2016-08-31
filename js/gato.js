@@ -16,16 +16,19 @@ var game = (function () {
 		//start the game
 		console.log("start");
 		turn = true;
+		view.display(tablero);
 		callGamers(turn);
 		while(true){
 			next();
 			//display
+			view.display(tablero);
 			var winner = checkWinner();
 			if (winner != null) {
 				//displayWinner
 			}
 			if(checkTie()){
 				//displayTie
+				view.displayTie();
 			}
 		}
 	};
@@ -111,7 +114,7 @@ var gamerPerson = new Gamer(true,"O",game);
 gamerPerson.jugada = function () {
 	for (var i = 0; i < 9; i++) {
 		var button = Document.getElementById(i);
-		button.addListener('click', function () {
+		button.addEventListener('click', function () {
 			
 		})
 	}
@@ -228,10 +231,14 @@ var view = function view() {
 	view.buttons = [];
 	for (var i = 0; i < 9; i++) {
 		buttons[i] = Document.getElementById(i);
-		
 	}
 	view.display = function (tablero) {
 		// display the tablero
+		for (var i = 0; i < 9; i++) {
+			var row = i/3;
+			var colum = i%3;
+			buttons[i].value = tablero[row][colum];
+		}
 	};
 	view.displayWinner = function () {
 		// display the winner
