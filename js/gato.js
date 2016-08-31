@@ -64,7 +64,14 @@ var game = (function () {
 		}
 		return null;
 	};
-	
+	function checkTie() {
+		for (var i = 0; i < 9; i++) {
+			var row = i/3;
+			var colum = i%3;
+			if (tablero[row][colum] == ' ') { return false }
+		}
+		return true;
+	};
 	function callGamers(turn) {
 		// event change turn
 		for (var i = gamers.length - 1; i >= 0; i--) {
