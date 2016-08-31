@@ -222,3 +222,18 @@ gamerCompu.jugada = function () {
 		else return null;
 	}
 }
+
+var view = function view() {
+	//view
+	view.buttons = [];
+	view.display = function (tablero) {
+		// display the tablero
+	};
+	view.displayWinner = function () {
+		// display the winner
+	}
+	view.displayTie = function () {
+		//display the Tie
+		alert("Se ha empatado");
+	}
+};
