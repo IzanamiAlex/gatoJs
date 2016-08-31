@@ -18,23 +18,21 @@ var game = (function () {
 		turn = true;
 		view.display(tablero);
 		callGamers(turn);
-		while(true){
-			next();
-			//display
-			view.display(tablero);
-			var winner = checkWinner();
-			if (winner != null) {
-				//displayWinner
-			}
-			if(checkTie()){
-				//displayTie
-				view.displayTie();
-			}
-		}
 	};
 	function next() {
 		//next turn
 		console.log("next");
+
+		view.display(tablero);
+		var winner = checkWinner();
+		if (winner != null) {
+			//displayWinner
+		}
+		if(checkTie()){
+			//displayTie
+			view.displayTie();
+		}
+
 		turn = ! turn;
 		callGamers(turn);
 	};
@@ -82,10 +80,6 @@ var game = (function () {
 		}
 	};
 
-	function display() {
-		//display the game
-	};
-
 	return {
 			tablero: tablero,
 			turn : turn,
@@ -111,14 +105,18 @@ function Gamer(turn,symbol,game) {
 }
 
 var gamerPerson = new Gamer(true,"O",game);
-gamerPerson.jugada = function () {
-	for (var i = 0; i < 9; i++) {
-		var button = Document.getElementById(i);
-		button.addEventListener('click', function () {
-			
-		})
-	}
-	
+gamerPerson.onChangeTurn = function () {
+	console.log('Turno del jugador');
+};
+gamerPerson.jugada = function (event) {
+	if (turn === gamerPerson.turn) {
+		view.buttons[]
+		//TODO: verificar como cambiar el texto de un button
+		if(event.target.value === ' '){
+			event.target.value = symbol;
+			game.next();
+		}
+	}	
 }
 
 var gamerCompu = new Gamer(false,"X", game);
@@ -137,6 +135,7 @@ gamerCompu.jugada = function () {
 	casillero = findEmpty();
 	tablero[casillero.row][casillero.colum] = symbol;
 
+	game.next();
 	
 	function checklines(symbol) {
 		for (var row = 0; row < tablero.length; row++) {
@@ -231,12 +230,14 @@ var view = function view() {
 	view.buttons = [];
 	for (var i = 0; i < 9; i++) {
 		buttons[i] = Document.getElementById(i);
+		buttons[i].addEventListener('click',gamerPerson.jugada);
 	}
 	view.display = function (tablero) {
 		// display the tablero
 		for (var i = 0; i < 9; i++) {
 			var row = i/3;
 			var colum = i%3;
+			//TODO: verificar como cambiar el texto de un button
 			buttons[i].value = tablero[row][colum];
 		}
 	};
