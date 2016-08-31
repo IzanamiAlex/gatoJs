@@ -110,7 +110,7 @@ gamerPerson.onChangeTurn = function () {
 };
 gamerPerson.jugada = function (event) {
 	if (turn === gamerPerson.turn) {
-		view.buttons[]
+		console.log("mi Turno");
 		//TODO: verificar como cambiar el texto de un button
 		if(event.target.value === ' '){
 			event.target.value = symbol;
@@ -225,27 +225,37 @@ gamerCompu.jugada = function () {
 	}
 }
 
-var view = function view() {
-	//view
-	view.buttons = [];
-	for (var i = 0; i < 9; i++) {
-		buttons[i] = Document.getElementById(i);
-		buttons[i].addEventListener('click',gamerPerson.jugada);
-	}
-	view.display = function (tablero) {
-		// display the tablero
-		for (var i = 0; i < 9; i++) {
-			var row = i/3;
-			var colum = i%3;
-			//TODO: verificar como cambiar el texto de un button
-			buttons[i].value = tablero[row][colum];
+var view = (function () {
+			//view
+			var view = {};
+			view.buttons = [];
+			for (var i = 0; i < 9; i++) {
+				view.buttons[i] = Document.getElementById(''+i);
+				view.buttons[i].addEventListener('click',gamerPerson.jugada);
+			}
+			view.display = function (tablero) {
+				// display the tablero
+				for (var i = 0; i < 9; i++) {
+					var row = i/3;
+					var colum = i%3;
+					//TODO: verificar como cambiar el texto de un button
+					buttons[i].value = tablero[row][colum];
+				}
+			};
+			view.displayWinner = function () {
+				// display the winner
+			}
+			view.displayTie = function () {
+				//display the Tie
+				alert("Se ha empatado");
+			}
+			return view;
 		}
-	};
-	view.displayWinner = function () {
-		// display the winner
-	}
-	view.displayTie = function () {
-		//display the Tie
-		alert("Se ha empatado");
-	}
-};
+	)();
+
+
+
+game.addGamer(gamerPerson);
+game.addGamer(gamerCompu);
+game.addView(view);
+game.start();
