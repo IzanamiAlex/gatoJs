@@ -1,5 +1,17 @@
-button {
-	display: inline-block;
+//init
+* {
+  padding: 0;
+  margin: 0;
+}
+.tablero {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.celda {
 	font-size: 30px;
 	width: 50px;
 	height: 50px;
