@@ -228,6 +228,17 @@ gamerCompu.jugada = function () {
 	}
 
 	function findEmpty() {
+    //version 1.0 de algoritmo de seleccion de celda.
+    if (tablero[1][1] === ' ') { return {row : 1, colum :1};}
+    if (tablero[0][0] === ' ' &&
+      tablero[2][2] === ' ') {
+      return {row : 2, colum : 2};
+    }
+    if (tablero[0][2] != gamerCompu.symbol &&
+      tablero[2][0] != gamerCompu.symbol) {
+      return {row : 2, colum : 0};
+    }
+
 		//find position uncheked
 		for (var i = 0; i < 9; i++) {
 			var row = Math.floor(i/3);
