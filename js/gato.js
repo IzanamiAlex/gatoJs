@@ -373,8 +373,8 @@ var Gato = ( function () {
     };
     function callGamers(turn) {
       // event change turn
+      gamers[0].onChangeTurn(turn);
       gamers[1].onChangeTurn(turn);
-      gamers[2].onChangeTurn(turn);
     };
   };
 } )();
@@ -384,3 +384,14 @@ var game = new Gato(gamerPerson,gamerCompu,view);
 //game.addGamer(gamerCompu);
 //game.addView(view);
 game.start();
+
+var bStart = document.getElementById('start');
+var bClear = document.getElementById('clear');
+
+bStart.addEventListener('click', function () {
+  game.start();
+})
+
+bClear.addEventListener('click', function () {
+  game = new Gato(gamerPerson,gamerCompu,view);
+})
