@@ -1,103 +1,103 @@
-var game = (function () {
-	var game = {};
-	game.tablero = [[' ', ' ',' '], [' ', ' ',' '], [' ', ' ',' ']];
-	game.turn;
-	game.run = false;
+// var game = (function () {
+// 	var game = {};
+// 	game.tablero = [[' ', ' ',' '], [' ', ' ',' '], [' ', ' ',' ']];
+// 	game.turn;
+// 	game.run = false;
 
-	var view;
-	var gamers = [];
+// 	var view;
+// 	var gamers = [];
 
-	game.addGamer = function (gamer) {
-		//add gamer
-		console.log("addGamer");
-		gamers[gamers.length] = gamer;
-	};
-	game.addView = function (view1) {
-		//add view
-		view = view1;
-	};
-	game.start = function () {
-		//start the game
-		console.log("start");
-		game.run =true;
-		game.turn = true;
-		view.display(game.tablero);
-		callGamers(game.turn);
-	};
-	game.next = function () {
-		//next turn
-		console.log("next");
+// 	game.addGamer = function (gamer) {
+// 		//add gamer
+// 		console.log("addGamer");
+// 		gamers[gamers.length] = gamer;
+// 	};
+// 	game.addView = function (view1) {
+// 		//add view
+// 		view = view1;
+// 	};
+// 	game.start = function () {
+// 		//start the game
+// 		console.log("start");
+// 		game.run =true;
+// 		game.turn = true;
+// 		view.display(game.tablero);
+// 		callGamers(game.turn);
+// 	};
+// 	game.next = function () {
+// 		//next turn
+// 		console.log("next");
 
-		view.display(game.tablero);
-		var winner = checkWinner();
-		if (winner != null) {
-			//displayWinner
-			view.displayWinner(winner);
-			game.stop();
-			return;
-		}
-		if(checkTie()){
-			//displayTie
-			view.displayTie();
-			game.stop();
-			return;
-		}
+// 		view.display(game.tablero);
+// 		var winner = checkWinner();
+// 		if (winner != null) {
+// 			//displayWinner
+// 			view.displayWinner(winner);
+// 			game.stop();
+// 			return;
+// 		}
+// 		if(checkTie()){
+// 			//displayTie
+// 			view.displayTie();
+// 			game.stop();
+// 			return;
+// 		}
 
-		game.turn = ! game.turn;
-		callGamers(game.turn);
-	};
-	game.stop = function (){
-		view.display(game.tablero);
-		game.run = false;
-	};
-	function checkWinner() {
-		// check the winner
-		console.log("checkWinner");
-		var tablero = game.tablero;
-		for (var row = 0; row < tablero.length; row++) {
-			if (tablero[row][0] === tablero[row][1] && 
-				tablero[row][1] === tablero[row][2] &&
-				tablero[row][0] != ' ') {
-				return tablero[row][0];
-			}
-		}
-		for (var colum = 0; colum < tablero[0].length; colum++) {
-			if (tablero[0][colum] === tablero[1][colum] && 
-				tablero[1][colum] === tablero[2][colum] &&
-				tablero[0][colum] != ' ') {
-				return tablero[0][colum];
-			}
-		}
-		if (tablero[0][0] === tablero[1][1] &&
-			tablero[1][1] === tablero[2][2] &&
-			tablero[1][1] != ' ') {
-			return tablero[1][1];
-		}
-		if (tablero[0][2] === tablero[1][1] &&
-			tablero[1][1] === tablero[2][0] &&
-			tablero[1][1] != ' ') {
-			return tablero[1][1];
-		}
-		return null;
-	};
-	function checkTie() {
-		for (var i = 0; i < 9; i++) {
-			var row = Math.floor(i/3);
-			var colum = i%3;
-			if (game.tablero[row][colum] == ' ') { return false; }
-		}
-		return true;
-	};
-	function callGamers(turn) {
-		// event change turn
-		for (var i = 0; i < gamers.length; i++) {
-			gamers[i].onChangeTurn(turn);
-		}
-	};
+// 		game.turn = ! game.turn;
+// 		callGamers(game.turn);
+// 	};
+// 	game.stop = function (){
+// 		view.display(game.tablero);
+// 		game.run = false;
+// 	};
+// 	function checkWinner() {
+// 		// check the winner
+// 		console.log("checkWinner");
+// 		var tablero = game.tablero;
+// 		for (var row = 0; row < tablero.length; row++) {
+// 			if (tablero[row][0] === tablero[row][1] &&
+// 				tablero[row][1] === tablero[row][2] &&
+// 				tablero[row][0] != ' ') {
+// 				return tablero[row][0];
+// 			}
+// 		}
+// 		for (var colum = 0; colum < tablero[0].length; colum++) {
+// 			if (tablero[0][colum] === tablero[1][colum] &&
+// 				tablero[1][colum] === tablero[2][colum] &&
+// 				tablero[0][colum] != ' ') {
+// 				return tablero[0][colum];
+// 			}
+// 		}
+// 		if (tablero[0][0] === tablero[1][1] &&
+// 			tablero[1][1] === tablero[2][2] &&
+// 			tablero[1][1] != ' ') {
+// 			return tablero[1][1];
+// 		}
+// 		if (tablero[0][2] === tablero[1][1] &&
+// 			tablero[1][1] === tablero[2][0] &&
+// 			tablero[1][1] != ' ') {
+// 			return tablero[1][1];
+// 		}
+// 		return null;
+// 	};
+// 	function checkTie() {
+// 		for (var i = 0; i < 9; i++) {
+// 			var row = Math.floor(i/3);
+// 			var colum = i%3;
+// 			if (game.tablero[row][colum] == ' ') { return false; }
+// 		}
+// 		return true;
+// 	};
+// 	function callGamers(turn) {
+// 		// event change turn
+// 		for (var i = 0; i < gamers.length; i++) {
+// 			gamers[i].onChangeTurn(turn);
+// 		}
+// 	};
 
-	return game;
-	}
-)();
+// 	return game;
+// 	}
+// )();
 
 var gamerPerson = {
 	turn : true,
@@ -121,7 +121,7 @@ gamerPerson.jugada = function (event) {
 		}else {
 			alert('Seleccion invalida');
 		}
-	}	
+	}
 }
 
 //var gamerCompu = new Gamer(false,"X", game);
@@ -156,39 +156,39 @@ gamerCompu.jugada = function () {
 	casillero = findEmpty();
 	tablero[casillero.row][casillero.colum] = gamerCompu.symbol;
 	game.next();
-	
+
 	function checklines(symbol) {
 		for (var row = 0; row < tablero.length; row++) {
-			if(tablero[row][0] === tablero[row][1] && 
-				tablero[row][0] === symbol && 
+			if(tablero[row][0] === tablero[row][1] &&
+				tablero[row][0] === symbol &&
 				tablero[row][2] === ' ') {
 					return{ row : row, colum : 2};
 			}
-			if(tablero[row][1] === tablero[row][2] && 
-				tablero[row][1] === symbol && 
+			if(tablero[row][1] === tablero[row][2] &&
+				tablero[row][1] === symbol &&
 				tablero[row][0] === ' ') {
 					return{ row : row, colum : 0};
 			}
-			if(tablero[row][0] === tablero[row][2] && 
-				tablero[row][0] === symbol && 
+			if(tablero[row][0] === tablero[row][2] &&
+				tablero[row][0] === symbol &&
 				tablero[row][1] === ' ') {
 					return{ row : row, colum : 1};
 			}
 		}
 
 		for (var colum = 0; colum < tablero[0].length; colum++) {
-			if(tablero[0][colum] === tablero[1][colum] && 
-				tablero[0][colum] === symbol && 
+			if(tablero[0][colum] === tablero[1][colum] &&
+				tablero[0][colum] === symbol &&
 				tablero[2][colum] === ' ') {
 					return{ row : 2, colum : colum};
 			}
-			if(tablero[1][colum] === tablero[2][colum] && 
-				tablero[1][colum] === symbol && 
+			if(tablero[1][colum] === tablero[2][colum] &&
+				tablero[1][colum] === symbol &&
 				tablero[0][colum] === ' ') {
 					return{ row : 0, colum : colum};
 			}
 			if(tablero[0][colum] === tablero[2][colum] &&
-				tablero[0][colum] === symbol && 
+				tablero[0][colum] === symbol &&
 				tablero[1][colum] === ' ') {
 					return{ row : 1, colum : colum};
 			}
@@ -239,8 +239,8 @@ gamerCompu.jugada = function () {
 
 	function otherSymbol(symbol) {
 		//return the other symbol
-		if (symbol === 'O') { return 'X' } 
-		else if ( symbol === 'X' ) {return 'O'} 
+		if (symbol === 'O') { return 'X' }
+		else if ( symbol === 'X' ) {return 'O'}
 		else return null;
 	}
 }
@@ -274,7 +274,102 @@ var view = (function () {
 		}
 	)();
 
-game.addGamer(gamerPerson);
-game.addGamer(gamerCompu);
-game.addView(view);
+var Gato = ( function () {
+  var gView;
+  var gamers = [];
+  return function (gamer1, gamer2, view) {
+    // body...
+    this.tablero = [[' ', ' ',' '], [' ', ' ',' '], [' ', ' ',' ']];
+    this.turn;
+    this.run = false;
+
+    gamers[0] = gamer1;
+    gamers[1] = gamer2;
+    gView = view;
+
+    this.start = function () {
+      //start the game
+      console.log("start");
+      game.run =true;
+      game.turn = true;
+      view.display(game.tablero);
+      callGamers(game.turn);
+    };
+    this.next = function () {
+      //next turn
+      console.log("next");
+
+      view.display(game.tablero);
+      var winner = checkWinner();
+      if (winner != null) {
+        //displayWinner
+        view.displayWinner(winner);
+        game.stop();
+        return;
+      }
+      if(checkTie()){
+        //displayTie
+        view.displayTie();
+        game.stop();
+        return;
+      }
+
+      game.turn = ! game.turn;
+      callGamers(game.turn);
+    };
+    this.stop = function (){
+      view.display(game.tablero);
+      game.run = false;
+    };
+
+    function checkWinner() {
+      // check the winner
+      console.log("checkWinner");
+      var tablero = game.tablero;
+      for (var row = 0; row < tablero.length; row++) {
+        if (tablero[row][0] === tablero[row][1] &&
+          tablero[row][1] === tablero[row][2] &&
+          tablero[row][0] != ' ') {
+          return tablero[row][0];
+        }
+      }
+      for (var colum = 0; colum < tablero[0].length; colum++) {
+        if (tablero[0][colum] === tablero[1][colum] &&
+          tablero[1][colum] === tablero[2][colum] &&
+          tablero[0][colum] != ' ') {
+          return tablero[0][colum];
+        }
+      }
+      if (tablero[0][0] === tablero[1][1] &&
+        tablero[1][1] === tablero[2][2] &&
+        tablero[1][1] != ' ') {
+        return tablero[1][1];
+      }
+      if (tablero[0][2] === tablero[1][1] &&
+        tablero[1][1] === tablero[2][0] &&
+        tablero[1][1] != ' ') {
+        return tablero[1][1];
+      }
+      return null;
+    };
+    function checkTie() {
+      for (var i = 0; i < 9; i++) {
+        var row = Math.floor(i/3);
+        var colum = i%3;
+        if (game.tablero[row][colum] == ' ') { return false; }
+      }
+      return true;
+    };
+    function callGamers(turn) {
+      // event change turn
+      gamers[1].onChangeTurn(turn);
+      gamers[2].onChangeTurn(turn);
+    };
+  };
+} )();
+
+var game = new Gato(gamerPerson,gamerCompu,view);
+//game.addGamer(gamerPerson);
+//game.addGamer(gamerCompu);
+//game.addView(view);
 game.start();
